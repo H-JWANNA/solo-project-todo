@@ -23,5 +23,5 @@ public class Todos {
   private int todoOrder;
 
   @Column(nullable = false)
-  private boolean completed;
+  private Boolean completed;
 }
