@@ -16,12 +16,12 @@ public class Todos {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-//  @Column
+  @Column(nullable = false)
   private String title;
 
-//  @Column
-  private int todo_order;
+  @Column(name = "todo_order")
+  private int todoOrder;
 
-//  @Column
+  @Column(nullable = false)
   private boolean completed;
 }
