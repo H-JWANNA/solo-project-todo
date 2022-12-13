@@ -14,8 +14,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/v1/todos")
 @Validated
 @Slf4j
 public class TodoController {
