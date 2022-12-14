@@ -10,28 +10,22 @@ import javax.validation.constraints.NotBlank;
 public class TodoDto {
 
   @Getter
+  @AllArgsConstructor
   public static class Post {
-    @NotBlank
+
     private String title;
-
-    @NotBlank
-    private int todoOrder;
-
-    private boolean completed;
+    private Long todoOrder;
+    private Boolean completed;
   }
 
   @Getter
+  @AllArgsConstructor
   public static class Patch {
     @NotBlank
-    private long id;
-
-    @NotBlank
+    private Long id;
     private String title;
-
-    @NotBlank
-    private int todoOrder;
-
-    private boolean completed;
+    private Long todoOrder;
+    private Boolean completed;
 
     public void setId(long id) {
       this.id = id;
@@ -39,10 +33,11 @@ public class TodoDto {
   }
 
   @Getter
+  @AllArgsConstructor
   public static class Response {
-    private long id;
+    private Long id;
     private String title;
-    private int todoOrder;
+    private Long todoOrder;
     private boolean completed;
   }
 }

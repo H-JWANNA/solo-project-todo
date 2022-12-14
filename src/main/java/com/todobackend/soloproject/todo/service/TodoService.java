@@ -31,7 +31,6 @@ public class TodoService {
     Optional.ofNullable(todo.getCompleted())
         .ifPresent(findTodo::setCompleted);
 
-
     return todoRepository.save(findTodo);
   }
 
