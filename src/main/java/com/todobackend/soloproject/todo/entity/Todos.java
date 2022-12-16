@@ -19,12 +19,9 @@ public class Todos {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//  @Column(nullable = false)
 	private String title;
 
-	//  @Column(name = "todo_order")
 	private Long todoOrder;
-
-	//  @Column(nullable = false)
+	
 	private Boolean completed;
 }
