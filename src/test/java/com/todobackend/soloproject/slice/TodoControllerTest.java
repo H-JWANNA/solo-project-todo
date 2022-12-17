@@ -49,10 +49,11 @@ public class TodoControllerTest {
 	public void postTodoTest() throws Exception {
 		// given : Test 용 Request Body 생성
 		TodoDto.Post post = new TodoDto.Post("title1", null, false);
+		TodoDto.Response response = new TodoDto.Response(1L, "title1", null, false);
 
-		Todos todo = mapper.todoPostToTodo(post);
-
-		given(todoService.createTodo(any(Todos.class))).willReturn(todo);
+		given(mapper.todoPostToTodo(any(TodoDto.Post.class))).willReturn(new Todos());
+		given(todoService.createTodo(any(Todos.class))).willReturn(new Todos());
+		given(mapper.todoToTodoResponse(any(Todos.class))).willReturn(response);
 
 		String content = gson.toJson(post);
 
