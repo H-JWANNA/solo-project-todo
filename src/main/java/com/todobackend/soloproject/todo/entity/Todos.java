@@ -22,6 +22,12 @@ public class Todos {
 	private String title;
 
 	private Long todoOrder;
-	
+
 	private Boolean completed;
+
+	public Todos(String title, Long todoOrder, Boolean completed) {
+		this.title = title;
+		this.todoOrder = todoOrder;
+		this.completed = completed;
+	}
 }
