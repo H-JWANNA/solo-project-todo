@@ -169,4 +169,57 @@ public class TodoControllerTest {
 				)
 			);
 	}
+
+	@Test
+	public void patchTodoTest() throws Exception {
+		// given
+		long id = 1L;
+		TodoDto.Patch patch = new TodoDto.Patch("title1", 1L, false);
+		patch.setId(id);
+		
+		TodoDto.Response response = new TodoDto.Response(1L, "title1", 1L, false);
+
+		given(mapper.todoPatchToTodo(any(TodoDto.Patch.class))).willReturn(new Todos());
+		given(todoService.updateTodo(any(Todos.class))).willReturn(new Todos());
+		given(mapper.todoToTodoResponse(any(Todos.class))).willReturn(response);
+
+		String content = gson.toJson(patch);
+
+		// when
+		ResultActions actions =
+			mockMvc.perform(
+				patch("/{id}", id)
+					.accept(MediaType.APPLICATION_JSON)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content)
+			);
+
+		// then
+		actions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.id").value(patch.getId()))
+			.andExpect(jsonPath("$.title").value(patch.getTitle()))
+			.andExpect(jsonPath("$.todoOrder").value(patch.getTodoOrder()))
+			.andExpect(jsonPath("$.completed").value(patch.getCompleted()))
+			.andDo(
+				document("patch-todo",
+					getRequestPreProcessor(),
+					getResponsePreProcessor(),
+					pathParameters(
+						parameterWithName("id").description("아이디")
+					),
+					requestFields(
+						fieldWithPath("title").type(JsonFieldType.STRING).description("타이틀"),
+						fieldWithPath("todoOrder").type(JsonFieldType.NUMBER).description("번호"),
+						fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
+					),
+					responseFields(
+						fieldWithPath("id").type(JsonFieldType.NUMBER).description("아이디"),
+						fieldWithPath("title").type(JsonFieldType.STRING).description("타이틀"),
+						fieldWithPath("todoOrder").type(JsonFieldType.NUMBER).description("번호"),
+						fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
+					)
+				)
+			);
+	}
 }
