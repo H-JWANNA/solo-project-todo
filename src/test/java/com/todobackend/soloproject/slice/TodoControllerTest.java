@@ -48,8 +48,8 @@ public class TodoControllerTest {
 	@Test
 	public void postTodoTest() throws Exception {
 		// given : Test 용 Request Body 생성
-		TodoDto.Post post = new TodoDto.Post("title1", null, false);
-		TodoDto.Response response = new TodoDto.Response(1L, "title1", null, false);
+		TodoDto.Post post = new TodoDto.Post("title1", 1L, false);
+		TodoDto.Response response = new TodoDto.Response(1L, "title1", 1L, false);
 
 		given(mapper.todoPostToTodo(any(TodoDto.Post.class))).willReturn(new Todos());
 		given(todoService.createTodo(any(Todos.class))).willReturn(new Todos());
@@ -80,7 +80,7 @@ public class TodoControllerTest {
 						fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
 					),
 					responseFields(
-						fieldWithPath("id").type(JsonFieldType.NUMBER),
+						fieldWithPath("id").type(JsonFieldType.NUMBER).description("아이디"),
 						fieldWithPath("title").type(JsonFieldType.STRING).description("타이틀"),
 						fieldWithPath("todoOrder").type(JsonFieldType.NUMBER).description("번호"),
 						fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
