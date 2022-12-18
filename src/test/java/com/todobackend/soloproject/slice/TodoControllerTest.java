@@ -244,4 +244,31 @@ public class TodoControllerTest {
 				)
 			);
 	}
+
+	@Test
+	public void deleteTodo() throws Exception {
+		// given
+		long id = 1L;
+
+		doNothing().when(todoService).deleteTodo(id);
+
+		// when
+		ResultActions actions =
+			mockMvc.perform(
+				delete("/{id}", id)
+			);
+
+		// then
+		actions
+			.andExpect(status().isNoContent())
+			.andDo(
+				document("delete-todo",
+					getRequestPreProcessor(),
+					getResponsePreProcessor(),
+					pathParameters(
+						parameterWithName("id").description("아이디")
+					)
+				)
+			);
+	}
 }
