@@ -6,6 +6,7 @@ import static org.mockito.BDDMockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.List;
@@ -124,6 +125,46 @@ public class TodoControllerTest {
 						fieldWithPath("[].title").type(JsonFieldType.STRING).description("타이틀"),
 						fieldWithPath("[].todoOrder").type(JsonFieldType.NUMBER).description("번호"),
 						fieldWithPath("[].completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
+					)
+				)
+			);
+	}
+
+	@Test
+	public void getTodoTest() throws Exception {
+		// given
+		long id = 1L;
+		Todos todo = new Todos("title1", 1L, false);
+		TodoDto.Response response = new TodoDto.Response(1L, "title1", 1L, false);
+
+		given(todoService.findTodo(anyLong())).willReturn(new Todos());
+		given(mapper.todoToTodoResponse(any(Todos.class))).willReturn(response);
+
+		// when
+		ResultActions actions =
+			mockMvc.perform(
+				get("/{id}", id)
+					.accept(MediaType.APPLICATION_JSON)
+			);
+
+		// then
+		actions
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.title").value(todo.getTitle()))
+			.andExpect(jsonPath("$.todoOrder").value(todo.getTodoOrder()))
+			.andExpect(jsonPath("$.completed").value(todo.getCompleted()))
+			.andDo(
+				document("get-todo",
+					getRequestPreProcessor(),
+					getResponsePreProcessor(),
+					pathParameters(
+						parameterWithName("id").description("아이디")
+					),
+					responseFields(
+						fieldWithPath("id").type(JsonFieldType.NUMBER).description("아이디"),
+						fieldWithPath("title").type(JsonFieldType.STRING).description("타이틀"),
+						fieldWithPath("todoOrder").type(JsonFieldType.NUMBER).description("번호"),
+						fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
 					)
 				)
 			);
