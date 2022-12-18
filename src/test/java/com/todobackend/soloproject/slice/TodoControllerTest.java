@@ -92,12 +92,12 @@ public class TodoControllerTest {
 	@Test
 	public void getTodosTest() throws Exception {
 		// given
-		Todos todo1 = new Todos("title1", null, false);
-		Todos todo2 = new Todos("title2", null, false);
+		Todos todo1 = new Todos("title1", 1L, false);
+		Todos todo2 = new Todos("title2", 1L, false);
 		List<Todos> todos = List.of(todo1, todo2);
 
-		TodoDto.Response response1 = new TodoDto.Response(1L, "title1", null, false);
-		TodoDto.Response response2 = new TodoDto.Response(2L, "title2", null, false);
+		TodoDto.Response response1 = new TodoDto.Response(1L, "title1", 1L, false);
+		TodoDto.Response response2 = new TodoDto.Response(2L, "title2", 1L, false);
 		List<TodoDto.Response> responses = List.of(response1, response2);
 
 		given(todoService.findTodos()).willReturn(todos);
@@ -117,12 +117,13 @@ public class TodoControllerTest {
 			.andExpect(jsonPath("$.length()").value(responses.size()))
 			.andDo(
 				document("get-todos",
+					getRequestPreProcessor(),
 					getResponsePreProcessor(),
 					responseFields(
-						fieldWithPath("id").type(JsonFieldType.NUMBER),
-						fieldWithPath("title").type(JsonFieldType.STRING).description("타이틀"),
-						fieldWithPath("todoOrder").type(JsonFieldType.NUMBER).description("번호"),
-						fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
+						fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("아이디"),
+						fieldWithPath("[].title").type(JsonFieldType.STRING).description("타이틀"),
+						fieldWithPath("[].todoOrder").type(JsonFieldType.NUMBER).description("번호"),
+						fieldWithPath("[].completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
 					)
 				)
 			);
