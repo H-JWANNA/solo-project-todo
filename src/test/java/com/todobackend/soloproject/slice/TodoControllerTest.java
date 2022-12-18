@@ -176,7 +176,7 @@ public class TodoControllerTest {
 		long id = 1L;
 		TodoDto.Patch patch = new TodoDto.Patch("title1", 1L, false);
 		patch.setId(id);
-		
+
 		TodoDto.Response response = new TodoDto.Response(1L, "title1", 1L, false);
 
 		given(mapper.todoPatchToTodo(any(TodoDto.Patch.class))).willReturn(new Todos());
@@ -219,6 +219,28 @@ public class TodoControllerTest {
 						fieldWithPath("todoOrder").type(JsonFieldType.NUMBER).description("번호"),
 						fieldWithPath("completed").type(JsonFieldType.BOOLEAN).description("완료 여부")
 					)
+				)
+			);
+	}
+
+	@Test
+	public void deleteTodos() throws Exception {
+		// given
+		doNothing().when(todoService).deleteTodos();
+
+		// when
+		ResultActions actions =
+			mockMvc.perform(
+				delete("/")
+			);
+
+		// then
+		actions
+			.andExpect(status().isNoContent())
+			.andDo(
+				document("delete-todos",
+					getRequestPreProcessor(),
+					getResponsePreProcessor()
 				)
 			);
 	}
