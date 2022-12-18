@@ -1,7 +1,5 @@
 package com.todobackend.soloproject.todo.dto;
 
-import javax.validation.constraints.NotBlank;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -17,13 +15,18 @@ public class TodoDto {
 	}
 
 	@Getter
-	@AllArgsConstructor
 	public static class Patch {
-		@NotBlank
+
 		private Long id;
-		private String title;
-		private Long todoOrder;
-		private Boolean completed;
+		private final String title;
+		private final Long todoOrder;
+		private final Boolean completed;
+
+		public Patch(String title, Long todoOrder, Boolean completed) {
+			this.title = title;
+			this.todoOrder = todoOrder;
+			this.completed = completed;
+		}
 
 		public void setId(long id) {
 			this.id = id;
