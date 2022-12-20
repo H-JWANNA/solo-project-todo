@@ -50,9 +50,9 @@ public class TodoController {
 	@PatchMapping("/{id}")
 	public ResponseEntity patchTodo(@PathVariable("id") @Positive long id,
 		@Valid @RequestBody TodoDto.Patch requestBody) {
-		requestBody.setId(id);
 
 		Todos todo = mapper.todoPatchToTodo(requestBody);
+		todo.setId(id);
 		Todos updatedTodo = todoService.updateTodo(todo);
 		TodoDto.Response response = mapper.todoToTodoResponse(updatedTodo);
 

@@ -17,7 +17,6 @@ public class TodoDto {
 	@Getter
 	public static class Patch {
 
-		private Long id;
 		private final String title;
 		private final Long todoOrder;
 		private final Boolean completed;
@@ -26,10 +25,6 @@ public class TodoDto {
 			this.title = title;
 			this.todoOrder = todoOrder;
 			this.completed = completed;
-		}
-
-		public void setId(long id) {
-			this.id = id;
 		}
 	}
 
